@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>000 | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace']
+                    },
+                    colors: {
+                        water: {
+                            light: '#E0F7FA',
+                            DEFAULT: '#4DD0E1',
+                            dark: '#006064'
+                        },
+                        dark: '#121212',
+                        light: '#FAFAFA'
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+        
+        // Check for dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        
+        :root {
+            --water-dark: #006064;
+            --water: #4DD0E1;
+            --water-light: #E0F7FA;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 10px;
+            grid-gap: 20px;
+        }
+        
+        .masonry-item {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .reveal-text {
+            position: relative;
+            color: transparent;
+            overflow: hidden;
+        }
+        
+        .reveal-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--water-dark);
+            animation: revealText 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+            animation-delay: var(--delay, 0s);
+        }
+        
+        .dark .reveal-text::before {
+            color: var(--water);
+        }
+        
+        @keyframes revealText {
+            0% {
+                transform: translateX(-101%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        .reveal-text::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--water);
+            transform-origin: 100% 50%;
+            animation: revealAfter 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+            animation-delay: var(--delay, 0s);
+        }
+        
+        @keyframes revealAfter {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(101%);
+            }
+        }
+        
+        .section-line {
+            position: relative;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(128, 128, 128, 0.3);
+            margin: 40px 0;
+        }
+        
+        .section-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: var(--water);
+            transition: width 1.5s ease;
+        }
+        
+        .section-line.animate::before {
+            width: 100%;
+        }
+        
+        .project-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image img {
+            transition: transform 0.7s ease;
+        }
+        
+        .project-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            pointer-events: none;
+        }
+        
+        .project-overlay > div {
+            pointer-events: auto;
+        }
+        
+        .project-image:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .team-card {
+            position: relative;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            color: white;
+            transform: translateY(calc(100% - 80px));
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover .team-card-content {
+            transform: translateY(0);
+        }
+        
+        .water-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="%234DD0E1" fill-opacity="0.1"/></svg>');
+            background-repeat: repeat-x;
+            background-position: bottom;
+            background-size: 100% 100px;
+            bottom: 0;
+            animation: wave 10s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        @keyframes wave {
+            0% {
+                background-position-x: 0;
+            }
+            100% {
+                background-position-x: 1200px;
+            }
+        }
+        
+        .scroll-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+            padding: 20px 0;
+        }
+        
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .scroll-item {
+            display: inline-block;
+            scroll-snap-align: start;
+            white-space: normal;
+            vertical-align: top;
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--water);
+            top: -200px;
+            right: -200px;
+        }
+        
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--water-dark);
+            bottom: -100px;
+            left: -200px;
+        }
+        
+        .distillation-diagram {
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        .distillation-diagram:hover {
+            transform: scale(1.02);
+        }
+        
+        .distillation-diagram::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid var(--water);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .distillation-diagram:hover::after {
+            opacity: 1;
+        }
+        
+        .menu-link {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 2px;
+        }
+        
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--water);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .counter {
+            font-family: 'Space Mono', monospace;
+            font-size: 5rem;
+            line-height: 1;
+            opacity: 0.1;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .animated-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s linear forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .parallax-container {
+            perspective: 1000px;
+            height: 100%;
+        }
+        
+        .parallax-layer {
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+        }
+        
+        .gallery-image {
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-image:hover {
+            transform: scale(1);
+            z-index: 1;
+        }
+        
+        .glitch-text {
+            position: relative;
+            font-weight: bold;
+            color: var(--water-dark);
+        }
+        
+        .dark .glitch-text {
+            color: var(--water);
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            left: 2px;
+            color: var(--water);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        
+        .dark .glitch-text::before {
+            color: var(--water-light);
+        }
+        
+        .glitch-text::after {
+            left: -2px;
+            color: var(--water-dark);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+        
+        .dark .glitch-text::after {
+            color: var(--water-dark);
+        }
+        
+        @keyframes glitch-anim-1 {
+            0% {
+                clip: rect(52px, 9999px, 19px, 0);
+            }
+            20% {
+                clip: rect(42px, 9999px, 28px, 0);
+            }
+            40% {
+                clip: rect(10px, 9999px, 86px, 0);
+            }
+            60% {
+                clip: rect(78px, 9999px, 15px, 0);
+            }
+            80% {
+                clip: rect(32px, 9999px, 23px, 0);
+            }
+            100% {
+                clip: rect(90px, 9999px, 16px, 0);
+            }
+        }
+        
+        @keyframes glitch-anim-2 {
+            0% {
+                clip: rect(33px, 9999px, 49px, 0);
+            }
+            20% {
+                clip: rect(12px, 9999px, 59px, 0);
+            }
+            40% {
+                clip: rect(54px, 9999px, 24px, 0);
+            }
+            60% {
+                clip: rect(82px, 9999px, 71px, 0);
+            }
+            80% {
+                clip: rect(33px, 9999px, 47px, 0);
+            }
+            100% {
+                clip: rect(66px, 9999px, 9px, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-light dark:bg-dark text-dark dark:text-light">
+    <!-- Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-light/80 dark:bg-dark/80 border-b border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-6 py-5">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-4xl font-bold text-water-dark dark:text-water glitch-text" data-text="000">000</a>
+                <div class="hidden md:flex space-x-12">
+                    <a href="#work" class="menu-link text-sm font-mono uppercase tracking-wider">Work</a>
+                    <a href="#mission" class="menu-link text-sm font-mono uppercase tracking-wider">Mission</a>
+                    <a href="#team" class="menu-link text-sm font-mono uppercase tracking-wider">Team</a>
+                    <a href="#gallery" class="menu-link text-sm font-mono uppercase tracking-wider">Gallery</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-water-dark dark:text-water">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-light/95 dark:bg-dark/95 z-40 flex flex-col items-center justify-center space-y-8 hidden">
+            <button id="close-menu" class="absolute top-6 right-6 text-2xl text-water-dark dark:text-water">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#" class="text-4xl font-bold text-water-dark dark:text-water">000</a>
+            <a href="#work" class="text-2xl font-bold">Work</a>
+            <a href="#mission" class="text-2xl font-bold">Mission</a>
+            <a href="#team" class="text-2xl font-bold">Team</a>
+            <a href="#gallery" class="text-2xl font-bold">Gallery</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+        <div class="water-animation"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7">
+                    <h1 class="text-7xl lg:text-9xl font-bold mb-6 reveal-text" data-text="000" style="--delay: 0.2s">000</h1>
+                    <p class="text-xl lg:text-2xl mb-8 max-w-2xl reveal-text" data-text="Developing innovative water solutions for communities across Africa" style="--delay: 0.4s">
+                        Developing innovative water solutions for communities across Africa
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#work" class="px-8 py-3 bg-water text-white dark:text-dark font-medium rounded-lg hover:bg-water-dark transition-all shadow-lg shadow-water/20 hover:shadow-water/30">
+                            View our work
+                        </a>
+                        <a href="#mission" class="px-8 py-3 border border-water-dark dark:border-water text-water-dark dark:text-water font-medium rounded-lg hover:bg-water-dark/5 dark:hover:bg-water/5 transition-all">
+                            Our mission
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 relative aspect-square flex items-center justify-center">
+    <div class="parallax-container w-full h-full max-w-md mx-auto">
+        <div class="parallax-layer relative w-full h-full">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path fill="#4DD0E1" d="M45.7,-76.4C59.1,-69.8,70.3,-57.4,77.6,-43.2C85,-29,88.5,-13,88.3,3.1C88.1,19.2,84.2,35.6,75.6,49.6C67,63.6,53.6,75.3,38.4,80.4C23.2,85.5,6.2,84,-9.8,79.9C-25.8,75.7,-40.9,69,-53.3,58.9C-65.8,48.8,-75.5,35.2,-79.9,20.1C-84.3,4.9,-83.5,-11.7,-78,-26.2C-72.5,-40.7,-62.3,-53,-49.5,-59.2C-36.7,-65.5,-21.2,-65.7,-5.2,-67.7C10.8,-69.7,32.2,-83.1,45.7,-76.4Z" transform="translate(100 100)" />
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <img 
+                    src="https://pfst.cf2.poecdn.net/base/image/6106144df1e68baff4319ae94180df76d1b162066404453c115f04d52fad64ed?w=473&h=608" 
+                    alt="Glass of clean water in nature" 
+                    class="w-2/3 h-2/3 rounded-full object-cover"
+                >
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center">
+            <div class="animate-bounce mb-2">
+                <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+            <span class="text-xs font-mono uppercase tracking-wide">Scroll to explore</span>
+        </div>
+    </header>
+
+    <!-- Work Section -->
+    <section id="work" class="py-32 relative">
+        <div class="container mx-auto px-6">
+            <div class="relative mb-16">
+                <span class="counter">01</span>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4 pl-20">Our Work</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <!-- Main Project -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+                <div class="distillation-diagram overflow-hidden rounded-2xl shadow-xl">
+                     <img src="https://pfst.cf2.poecdn.net/base/image/13d94de154bae95e21e789978b84c9db8540e1564c12e6f8926421741fac2d7a?w=674&h=594" alt="Simple Distillation Setup" class="img-responsive" style="width:100%;">
+                </div>
+                <div>
+                    <span class="inline-block mb-4 text-xs font-mono text-water-dark dark:text-water uppercase tracking-wider">Innovative Solution</span>
+                    <h3 class="text-3xl font-bold mb-6">Simple Distillation Technology</h3>
+                    <p class="text-lg mb-8 text-gray-700 dark:text-gray-300">
+                        Our approach utilizes simple distillation to convert seawater into fresh, potable water. This affordable and sustainable solution addresses the critical water crisis in Madagascar and beyond.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div class="bg-water-light dark:bg-water-dark/30 text-water-dark dark:text-water p-3 rounded-full mr-4">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Purification</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Removes salt and impurities</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-water-light dark:bg-water-dark/30 text-water-dark dark:text-water p-3 rounded-full mr-4">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Sustainable</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Environmentally friendly process</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-water-light dark:bg-water-dark/30 text-water-dark dark:text-water p-3 rounded-full mr-4">
+                                <i class="fas fa-hand-holding-water"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Accessible</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Affordable for local communities</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-water-light dark:bg-water-dark/30 text-water-dark dark:text-water p-3 rounded-full mr-4">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Clean Water</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Safe for consumption</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                <div class="bg-white dark:bg-dark border border-gray-200 dark:border-gray-800 rounded-xl p-8 shadow-lg">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="text-5xl font-bold text-water-dark dark:text-water mb-2 font-mono">31.99%</div>
+                        <p>Sub-Saharan Africa clean water access</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark border border-gray-200 dark:border-gray-800 rounded-xl p-8 shadow-lg">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="text-5xl font-bold text-water-dark dark:text-water mb-2 font-mono">4</div>
+                        <p>Team members dedicated to the mission</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark border border-gray-200 dark:border-gray-800 rounded-xl p-8 shadow-lg">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="text-5xl font-bold text-water-dark dark:text-water mb-2 font-mono">5</div>
+                        <p>E-Lab challenges successfully completed</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Projects -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="project-image rounded-xl overflow-hidden aspect-video">
+                     <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/_1VzqO-JZs0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="project-overlay">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Strategic Partnerships</h3>
+                            <p class="text-sm text-white/80">Collaborating with potential stakeholders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-image rounded-xl overflow-hidden aspect-video">
+                    <img src="https://pfst.cf2.poecdn.net/base/image/c2745a3985f359c60d32bb14c9fedff7d3709e9f6eb992e569c9e4f76f5183e6?w=1080&h=1080" alt="Community Water Access Survey QR Code" class="img-responsive">
+                    <div class="project-overlay">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Community Impact</h3>
+                            <p class="text-sm text-white/80">Bringing clean water solutions to villages</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Mission Section -->
+    <section id="mission" class="py-32 bg-water-light/30 dark:bg-water-dark/10 relative">
+        <div class="container mx-auto px-6">
+            <div class="relative mb-16">
+                <span class="counter">02</span>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4 pl-20">Our Mission</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 relative">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <path fill="none" stroke="#4DD0E1" stroke-width="2" d="M45.7,-76.4C59.1,-69.8,70.3,-57.4,77.6,-43.2C85,-29,88.5,-13,88.3,3.1C88.1,19.2,84.2,35.6,75.6,49.6C67,63.6,53.6,75.3,38.4,80.4C23.2,85.5,6.2,84,-9.8,79.9C-25.8,75.7,-40.9,69,-53.3,58.9C-65.8,48.8,-75.5,35.2,-79.9,20.1C-84.3,4.9,-83.5,-11.7,-78,-26.2C-72.5,-40.7,-62.3,-53,-49.5,-59.2C-36.7,-65.5,-21.2,-65.7,-5.2,-67.7C10.8,-69.7,32.2,-83.1,45.7,-76.4Z" transform="translate(100 100)" class="animated-path" />
+                        <path fill="#4DD0E1" fill-opacity="0.1" d="M45.7,-76.4C59.1,-69.8,70.3,-57.4,77.6,-43.2C85,-29,88.5,-13,88.3,3.1C88.1,19.2,84.2,35.6,75.6,49.6C67,63.6,53.6,75.3,38.4,80.4C23.2,85.5,6.2,84,-9.8,79.9C-25.8,75.7,-40.9,69,-53.3,58.9C-65.8,48.8,-75.5,35.2,-79.9,20.1C-84.3,4.9,-83.5,-11.7,-78,-26.2C-72.5,-40.7,-62.3,-53,-49.5,-59.2C-36.7,-65.5,-21.2,-65.7,-5.2,-67.7C10.8,-69.7,32.2,-83.1,45.7,-76.4Z" transform="translate(100 100)" />
+                        <clipPath id="blob-shape">
+                            <path d="M45.7,-76.4C59.1,-69.8,70.3,-57.4,77.6,-43.2C85,-29,88.5,-13,88.3,3.1C88.1,19.2,84.2,35.6,75.6,49.6C67,63.6,53.6,75.3,38.4,80.4C23.2,85.5,6.2,84,-9.8,79.9C-25.8,75.7,-40.9,69,-53.3,58.9C-65.8,48.8,-75.5,35.2,-79.9,20.1C-84.3,4.9,-83.5,-11.7,-78,-26.2C-72.5,-40.7,-62.3,-53,-49.5,-59.2C-36.7,-65.5,-21.2,-65.7,-5.2,-67.7C10.8,-69.7,32.2,-83.1,45.7,-76.4Z" transform="translate(100 100)" />
+                        </clipPath>
+                        <image href="https://pfst.cf2.poecdn.net/base/image/de3abcce19f4d66f2717636912f9dde9f0f75cbc38c98f34a88814b46f88c86f?w=758&h=734" width="200" height="200" clip-path="url(#blob-shape)" preserveAspectRatio="xMidYMid slice" />
+                    </svg>
+
+                </div>
+                <div class="lg:col-span-7">
+                    <p class="text-lg mb-6 text-gray-700 dark:text-gray-300">
+                        Our mission is to enhance access to clean water across Africa by creating innovative and sustainable water solutions that are both affordable and accessible.
+                    </p>
+                    <p class="text-lg mb-10 text-gray-700 dark:text-gray-300">
+                        According to Macrotrends (2025), only 31.99% of Sub-Saharan Africa's population has access to clean water, making it the region with the lowest water access rate globally.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-water-light dark:bg-water-dark/30 flex items-center justify-center mr-4">
+                                    <i class="fas fa-tint-slash text-water-dark dark:text-water"></i>
+                                </div>
+                                <h4 class="text-lg font-bold">The Problem</h4>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">
+                                Inadequate water infrastructure and severe poverty have left many communities without reliable water sources.
+                            </p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-water-light dark:bg-water-dark/30 flex items-center justify-center mr-4">
+                                    <i class="fas fa-lightbulb text-water-dark dark:text-water"></i>
+                                </div>
+                                <h4 class="text-lg font-bold">Our Solution</h4>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">
+                                Implementing desalination systems that convert seawater into fresh water through sustainable distillation methods.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-32 relative">
+        <div class="container mx-auto px-6">
+            <div class="relative mb-16">
+                <span class="counter">03</span>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4 pl-20">Our Team</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Team Member 1 -->
+                <div class="team-card rounded-xl overflow-hidden aspect-[3/4] shadow-xl">
+                     <img src="https://pfst.cf2.poecdn.net/base/image/c766511f4c766269810622eceb346e53a6fd0ab7bd14aca75f35b5caec571125?w=1080&h=1080" alt="Winebald Banituze" class="team-image">
+                    <div class="team-card-content">
+                        <h3 class="text-xl font-bold mb-1">Winebald Banituze</h3>
+                        <p class="text-water-light text-sm mb-4">Project Coordinator</p>
+                        <p class="text-white/80 text-sm mb-3">
+                            Developing strategic partnerships and project management.
+                        </p>
+                        <a href="mailto:info@winebald.tech" class="text-water inline-flex items-center text-sm">
+                            <i class="far fa-envelope mr-2"></i>
+                            info@winebald.tech
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-card rounded-xl overflow-hidden aspect-[3/4] shadow-xl">
+                    <img src="https://pfst.cf2.poecdn.net/base/image/0aee692577dcb75df88a350477be7a2b67976db0abb44b28a8a741163f079cf1?w=500&h=500" alt="Umutoni Rutaganira Sylvie" class="team-image">
+                    <div class="team-card-content">
+                        <h3 class="text-xl font-bold mb-1">Sylvie Umutoni Rutaganira</h3>
+                        <p class="text-water-light text-sm mb-4">Technology Lead</p>
+                        <p class="text-white/80 text-sm mb-3">
+                            Leading our research and development efforts in water purification technology.
+                        </p>
+                        <a href="mailto:s.umutonir@alustudent.com" class="text-water inline-flex items-center text-sm">
+                            <i class="far fa-envelope mr-2"></i>
+                            s.umutonir@alustudent.com
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-card rounded-xl overflow-hidden aspect-[3/4] shadow-xl">
+                     <img src="https://pfst.cf2.poecdn.net/base/image/6bc6f96a8e8b96bf2a98fe1a42d4d6758c47fc35bb9b062c861d9f35a5979d48?w=500&h=500" alt="Obueze Chisom Louisa" class="team-image">
+                    <div class="team-card-content">
+                        <h3 class="text-xl font-bold mb-1">Louisa Chisom Obueze</h3>
+                        <p class="text-water-light text-sm mb-4">Environmental Officer</p>
+                        <p class="text-white/80 text-sm mb-3">
+                            Specializing in sustainable design and environmental impact assessment.
+                        </p>
+                        <a href="mailto:l.chisom@alustudent.com" class="text-water inline-flex items-center text-sm">
+                            <i class="far fa-envelope mr-2"></i>
+                            l.chisom@alustudent.com
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Team Member 4 -->
+                <div class="team-card rounded-xl overflow-hidden aspect-[3/4] shadow-xl">
+                     <img src="https://pfst.cf2.poecdn.net/base/image/a0add83a71f7351bb601d5013c9adc9f3626d7808821b585911c880dab4a0b21?w=500&h=500" alt="Olivier Bigirimana" class="team-image">
+                    <div class="team-card-content">
+                        <h3 class="text-xl font-bold mb-1">Olivier Bigirimana</h3>
+                        <p class="text-water-light text-sm mb-4">Community Engagement</p>
+                        <p class="text-white/80 text-sm mb-3">
+                            Focusing on community engagement and implementation strategies.
+                        </p>
+                        <a href="mailto:o.bigiriman@alustudent.com" class="text-water inline-flex items-center text-sm">
+                            <i class="far fa-envelope mr-2"></i>
+                            o.bigiriman@alustudent.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-32 bg-water-light/30 dark:bg-water-dark/10 relative">
+        <div class="container mx-auto px-6">
+            <div class="relative mb-16">
+                <span class="counter">04</span>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4 pl-20">Gallery</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <!-- E-Lab Videos -->
+            <h3 class="text-2xl font-bold mb-8">E-Lab Challenges</h3>
+            <div class="scroll-container mb-20">
+                <div class="scroll-item w-80 md:w-96 mr-6">
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/QHGTaeQf75A" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-900">
+                            <h4 class="font-bold">Challenge 01: Introduction</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Getting started with our water innovation journey</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-item w-80 md:w-96 mr-6">
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/Nh0eUuB4ifE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-900">
+                            <h4 class="font-bold">Challenge 02: Discover Africa</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Exploring water challenges across the continent</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-item w-80 md:w-96 mr-6">
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/KJrOr_9Xrp8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-900">
+                            <h4 class="font-bold">Challenge 03: HELP-LAB</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Developing solutions for specific communities</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-item w-80 md:w-96 mr-6">
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/SCHxnCQAhTU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-900">
+                            <h4 class="font-bold">Challenge 04: Hunt for Treasure</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Finding innovative approaches to water purification</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-item w-80 md:w-96">
+                    <div class="rounded-xl overflow-hidden shadow-lg">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/Zc2jVUQptD8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-900">
+                            <h4 class="font-bold">Challenge 05: Launch Our Mission</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Implementing our water solutions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                    <span class="inline-block text-sm text-primary-600 dark:text-primary-400">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Scroll horizontally to see all videos
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </span>
+                </div>
+            <!-- Photo Gallery -->
+<h3 class="text-2xl font-bold mb-6">Project Photos</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/a65b7b0f737338766d42ed2cdeb6eb2b5f017a24f9c3440fbace32ac1a216c8b?w=236&h=354" 
+                alt="Child joyfully drinking fresh water" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/6106144df1e68baff4319ae94180df76d1b162066404453c115f04d52fad64ed?w=473&h=608" 
+                alt="Glass of clean water in nature" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/2d7398fe97e04e3578adbc4a043007210395fe128ad4f756962f202e070ead7c?w=236&h=354" 
+                alt="Child bathing with fresh water" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/b124cfc5627615a610ae3646bf21163a069aeb225d2c6763496cfc669a44217a?w=468&h=700" 
+                alt="Child carrying water container" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/6d4e32d47a8579213b53311661e2bd628fbb3d23c0ec22fd4196fb78636bc166?w=560&h=640" 
+                alt="Child carrying water containers" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+    <div class="gallery-image rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="aspect-[3/4]">
+            <img 
+                src="https://pfst.cf2.poecdn.net/base/image/00bcb109a9ae2a53b5735b1e12ae46071cad0c6e4128d94754b9bdfe1e8465f0?w=736&h=736" 
+                alt="Water for Life - Person pouring water" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20 bg-water text-white dark:text-dark relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Join Our Mission</h2>
+                <p class="text-xl mb-10 opacity-90">
+                    Together, we can transform water accessibility across Africa with innovative, sustainable solutions.
+                </p>
+                <a href="mailto:000@winebald.tech" class="inline-block px-10 py-4 bg-white text-water-dark font-bold rounded-lg hover:bg-white/90 transition-all">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+        <div class="absolute inset-0 opacity-10">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path fill="#FFFFFF" d="M39.9,-67.9C52.5,-62.3,64.2,-53.1,71.7,-41C79.1,-28.8,82.4,-14.4,80.8,-0.9C79.3,12.6,73,25.2,64.3,35.6C55.7,46.1,44.8,54.4,32.9,61.5C21,68.5,8.1,74.3,-5.2,77.6C-18.5,80.9,-37,81.6,-50.8,74.8C-64.6,68,-73.7,53.7,-79.5,38.5C-85.3,23.3,-87.8,7.2,-86.2,-8.8C-84.6,-24.8,-78.9,-40.6,-68.3,-51.5C-57.8,-62.4,-42.3,-68.4,-28.3,-73.2C-14.2,-78,-7.1,-81.7,2.7,-86.8C12.5,-91.9,25.1,-98.6,32.8,-91.2C40.5,-83.9,43.4,-62.7,39.9,-67.9Z" transform="translate(100 100)" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white dark:bg-dark">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <div class="text-4xl font-bold mb-4 text-water-dark dark:text-water">000</div>
+                    <p class="text-gray-600 dark:text-gray-400">Limitless Potential and Unity within the Universe.</p>
+                </div>
+                <div class="flex flex-col items-center md:items-end">
+                    <div class="flex space-x-6 mb-4">
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-water-dark dark:hover:text-water transition-colors">
+    <i class="fab fa-youtube text-xl"></i>
+</a>
+<a href="#" class="text-gray-600 dark:text-gray-400 hover:text-water-dark dark:hover:text-water transition-colors">
+    <i class="fab fa-instagram text-xl"></i>
+</a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-water-dark dark:hover:text-water transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-water-dark dark:hover:text-water transition-colors">
+    <i class="fab fa-x-twitter text-xl"></i>
+</a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-water-dark dark:hover:text-water transition-colors">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-500">&copy; 2025 000. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // Parallax effect
+        const parallaxLayer = document.querySelector('.parallax-layer');
+        
+        document.addEventListener('mousemove', (e) => {
+            if (parallaxLayer) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                parallaxLayer.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+        
+        // Animation for section lines
+        const sectionLines = document.querySelectorAll('.section-line');
+        
+        const animateSectionLines = () => {
+            sectionLines.forEach(line => {
+                const linePosition = line.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (linePosition < screenPosition) {
+                    line.classList.add('animate');
+                }
+            });
+        };
+        
+        // Image sizes for masonry grid
+        const resizeMasonryItems = () => {
+            const grid = document.querySelector('.masonry-grid');
+            if (!grid) return;
+            
+            const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+            const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+            
+            const items = grid.querySelectorAll('.masonry-item');
+            
+            items.forEach(item => {
+                const image = item.querySelector('img');
+                if (image) {
+                    image.addEventListener('load', () => {
+                        const height = image.getBoundingClientRect().height;
+                        const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+                        item.style.gridRowEnd = `span ${rowSpan}`;
+                    });
+                    
+                    if (image.complete) {
+                        const height = image.getBoundingClientRect().height;
+                        const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+                        item.style.gridRowEnd = `span ${rowSpan}`;
+                    }
+                }
+            });
+        };
+        
+        // Initialize animations
+        window.addEventListener('scroll', animateSectionLines);
+        window.addEventListener('load', () => {
+            animateSectionLines();
+            resizeMasonryItems();
+        });
+        window.addEventListener('resize', resizeMasonryItems);    
+     // Disable right-click and keyboard shortcuts
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+    }
+});
+    </script>
+</body>
+</html>
